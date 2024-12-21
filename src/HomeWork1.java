@@ -1,7 +1,7 @@
 public class HomeWork1 {
     public static void main(String[] args) {
         // Задача1.Составить программу вывода на экран в одну строку четырех любых чисел с тремя пробелами между ними
-
+        System.out.println("Задача № 1");
         int one = (int)(Math.random()*10);
         int two = (int)(Math.random()*10);
         int three = (int)(Math.random()*10);
@@ -17,8 +17,9 @@ public class HomeWork1 {
         Камень побеждает ножницы («камень затупляет ножницы»).
         Ножницы побеждают бумагу («ножницы разрезают бумагу»).
         */
-
-        String [] stoneGame = {"Камень","Ножницы","Бумага"};
+        System.out.println("***");
+        System.out.println("Задача № 2");
+        String [] stoneGame = {"Камень","Ножницы","Бумагу"};
         String vasyaName = "Вася";
         String petyaName = "Петя";
         int vasyaChoice = (int)(Math.random()*3);
@@ -28,7 +29,7 @@ public class HomeWork1 {
 
         System.out.println(vasyaName + " показал: "+stoneGame[vasyaChoice]);
         System.out.println(petyaName + " показал: "+stoneGame[petyaChoice]);
-        System.out.println("***");
+        System.out.println("Результат игры:");
         // Вася - Ножницы, Петя - Бумага и наоборот
         if(vasyaChoice == 1 && petyaChoice == 2){
             System.out.println(vasyaWinner);
