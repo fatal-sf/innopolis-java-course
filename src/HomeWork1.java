@@ -18,7 +18,7 @@ public class HomeWork1 {
         Ножницы побеждают бумагу («ножницы разрезают бумагу»).
         */
 
-        String [] stoneGame = {"Бумага","Камень","Ножницы"};
+        String [] stoneGame = {"Камень","Ножницы","Бумага"};
         String vasyaName = "Вася";
         String petyaName = "Петя";
         int vasyaChoice = (int)(Math.random()*3);
@@ -30,19 +30,19 @@ public class HomeWork1 {
         System.out.println(petyaName + " показал: "+stoneGame[petyaChoice]);
         System.out.println("***");
         // Вася - Ножницы, Петя - Бумага и наоборот
-        if(vasyaChoice == 2 && petyaChoice == 0){
+        if(vasyaChoice == 1 && petyaChoice == 2){
             System.out.println(vasyaWinner);
-        } else if (petyaChoice == 2 && vasyaChoice == 0) {
+        } else if (vasyaChoice == 2 && petyaChoice == 1) {
             System.out.println(petyaWinner);
             // Вася - Бумага, Петя - Камень и наоборот
+        } else if (vasyaChoice == 2 && petyaChoice == 0) {
+            System.out.println(vasyaWinner);
+        } else if (vasyaChoice == 0 && petyaChoice == 2) {
+            System.out.println(petyaWinner);
+            // Вася - Камень, Петя - Ножницы и наоборот
         } else if (vasyaChoice == 0 && petyaChoice == 1) {
             System.out.println(vasyaWinner);
         } else if (vasyaChoice == 1 && petyaChoice == 0) {
-            System.out.println(petyaWinner);
-            // Вася - Камень, Петя - Ножницы и наоборот
-        } else if (vasyaChoice == 1 && petyaChoice == 2) {
-            System.out.println(vasyaWinner);
-        } else if (vasyaChoice == 2 && petyaChoice == 1) {
             System.out.println(petyaWinner);
         } else {
             System.out.println("Победила дружба!");
