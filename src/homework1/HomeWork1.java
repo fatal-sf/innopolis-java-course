@@ -1,3 +1,5 @@
+package homework1;
+
 public class HomeWork1 {
     public static void main(String[] args) {
         // Задача1.Составить программу вывода на экран в одну строку четырех любых чисел с тремя пробелами между ними
