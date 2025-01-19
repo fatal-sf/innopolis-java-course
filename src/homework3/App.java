@@ -1,3 +1,5 @@
+package homework3;
+
 import java.util.Scanner;
 
 public class App {
@@ -11,7 +13,7 @@ public class App {
         String color = scanner.nextLine();
         System.out.println("Нужен ли вай фай модуль? Введите 0 - если не нужен и 1 - если нужен:");
         boolean wifiModule = scanner.hasNextBoolean();
-        TV tv3 = new TV (color, wifiModule);
+        TV tv3 = new TV(color, wifiModule);
         System.out.println(tv3.toString());
         System.out.println("");
         System.out.println("******************************************");
