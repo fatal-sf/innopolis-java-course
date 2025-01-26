@@ -22,6 +22,14 @@ public class Market {
     public Person[] getBuyers() {
         return buyers;
     }
+    public Person getBuyerByName (String name){
+        for(Person buyer:buyers){
+            if (buyer.getName().equals(name)){
+                return buyer;
+            }
+        }
+        return null;
+    }
 
     public void setBuyers (Person person){
         if(getBuyers() == null){
@@ -47,11 +55,20 @@ public class Market {
             productShelf = buff;
         }
     }
+
+    public Product getProductFromShelfByname(String name){
+        for(Product product:productShelf){
+            if (product.getName().equals(name)){
+                return product;
+            }
+        }
+        return null;
+    }
+
     public Product[] getProductShelf() {
         return productShelf;
     }
     public void buyProduct (Product product, Person person){
-
         if(person.getAmount() - product.getPrice() >=0){
             person.setAmount(person.getAmount() - product.getPrice());
             if (person.getProductsBasket() != null){
@@ -66,6 +83,7 @@ public class Market {
                 Product [] buff = {product};
                 person.setProductsBasket(buff);
             }
+            System.out.println(person.getName() + " купил (-а) " + product.getName());
         } else {
             System.out.println(person.getName() + " не может позволить себе " + product.getName());
         }

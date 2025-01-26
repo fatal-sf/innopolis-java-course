@@ -32,7 +32,7 @@ public class Person {
     }
 
     public void setAmount(int amount) {
-       if (amount > 0){
+       if (amount >= 0){
            this.amount = amount;
        } else{
            System.out.println("Деньги не могут быть отрицательными");
@@ -46,6 +46,17 @@ public class Person {
 
     public Product getProductFromBasket(int index){
         return this.productsBasket[index];
+    }
+    public String[] getProductsNameFromBasket(Person person){
+        if(productsBasket!=null){
+            String[] buff = new String[productsBasket.length];
+            for (int i = 0; i < buff.length; i++){
+                buff[i] = getProductFromBasket(i).getName();
+            }
+            return buff;
+        }
+        return null;
+
     }
 
     public void setProductsBasket(Product[] productsBasket) {

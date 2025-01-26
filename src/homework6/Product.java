@@ -17,7 +17,7 @@ public class Product {
         } else {
             System.out.println("Название продукта не может быть пустой строкой.");
         }
-        if (price > 0){
+        if (price >= 0){
             this.price = price;
         } else {
             System.out.println("Стоимость продукта не может быть отрицательным числом.");
