@@ -14,28 +14,38 @@ public class Person {
     private Product [] productsBasket;
 
     public Person(String name, int amount){
-        if (name!=null){
+        if (name!=""){
             this.name = name;
         } else {
             System.out.println("Имя не может быть пустой строкой.");
         }
-        if (amount > 0){
-            this.amount = amount;
-        } else {
-            System.out.println("Деньги не могут быть отрицательным числом.");
-        }
+       this.setAmount(amount);
     }
 
     public String getName() {
         return name;
+
     }
 
     public int getAmount() {
         return amount;
     }
 
+    public void setAmount(int amount) {
+       if (amount > 0){
+           this.amount = amount;
+       } else{
+           System.out.println("Деньги не могут быть отрицательными");
+       }
+
+    }
+
     public Product[] getProductsBasket() {
         return productsBasket;
+    }
+
+    public Product getProductFromBasket(int index){
+        return this.productsBasket[index];
     }
 
     public void setProductsBasket(Product[] productsBasket) {
