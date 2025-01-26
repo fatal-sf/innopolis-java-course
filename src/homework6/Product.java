@@ -12,7 +12,7 @@ public class Product {
     private int price;
 
     public Product (String name, int price){
-        if (name != null){
+        if (name != "" && name != null){
             this.name = name;
         } else {
             System.out.println("Название продукта не может быть пустой строкой.");
