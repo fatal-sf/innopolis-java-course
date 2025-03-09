@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+
 class UsersRepositoryFileImplTest {
 
     private UsersRepository repository;
@@ -19,6 +20,8 @@ class UsersRepositoryFileImplTest {
     void setUp() {
         // Инициализация репозитория перед каждым тестом
         repository = new UsersRepositoryFileImpl();
+        // Очистка данных перед каждым тестом
+        repository.deleteAll();
     }
 
     @AfterEach
@@ -29,15 +32,8 @@ class UsersRepositoryFileImplTest {
 
     @Test
     void testCreateUser() {
-        User user = new User();
-        user.setLogin("testUser");
-        user.setPassword("testPass123");
-        user.setConfirmPassword("testPass123");
-        user.setLastName("Тестов");
-        user.setFirstName("Тест");
-        user.setMiddleName("Тестович");
-        user.setAge(30);
-        user.setWorker(false);
+        // Создаем пользователя с помощью конструктора одной строкой
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|testUser|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
 
         repository.create(user);
 
@@ -49,15 +45,8 @@ class UsersRepositoryFileImplTest {
 
     @Test
     void testFindAllUsers() {
-        User user = new User();
-        user.setLogin("testUser");
-        user.setPassword("testPass123");
-        user.setConfirmPassword("testPass123");
-        user.setLastName("Тестов");
-        user.setFirstName("Тест");
-        user.setMiddleName("Тестович");
-        user.setAge(30);
-        user.setWorker(false);
+        // Создаем пользователя с помощью конструктора одной строкой
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|testUser|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
 
         repository.create(user);
 
@@ -68,15 +57,8 @@ class UsersRepositoryFileImplTest {
 
     @Test
     void testCreateUserWithInvalidLogin() {
-        User user = new User();
-        user.setLogin("123456"); // Логин состоит только из цифр
-        user.setPassword("testPass123");
-        user.setConfirmPassword("testPass123");
-        user.setLastName("Тестов");
-        user.setFirstName("Тест");
-        user.setMiddleName("Тестович");
-        user.setAge(30);
-        user.setWorker(false);
+        // Создаем пользователя с некорректным логином (только цифры)
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|123456|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
 
         assertThrows(IllegalArgumentException.class, () -> repository.create(user));
     }
@@ -88,18 +70,12 @@ class UsersRepositoryFileImplTest {
 
     @Test
     void testUpdateUser() {
-        User user = new User();
-        user.setLogin("testUser");
-        user.setPassword("testPass123");
-        user.setConfirmPassword("testPass123");
-        user.setLastName("Тестов");
-        user.setFirstName("Тест");
-        user.setMiddleName("Тестович");
-        user.setAge(30);
-        user.setWorker(false);
+        // Создаем пользователя с помощью конструктора одной строкой
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|testUser|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
 
         repository.create(user);
 
+        // Обновляем имя пользователя
         user.setFirstName("Обновленное Имя");
         repository.update(user);
 
@@ -109,19 +85,39 @@ class UsersRepositoryFileImplTest {
 
     @Test
     void testDeleteUser() {
-        User user = new User();
-        user.setLogin("testUser");
-        user.setPassword("testPass123");
-        user.setConfirmPassword("testPass123");
-        user.setLastName("Тестов");
-        user.setFirstName("Тест");
-        user.setMiddleName("Тестович");
-        user.setAge(30);
-        user.setWorker(false);
+        // Создаем пользователя с помощью конструктора одной строкой
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|testUser|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
 
         repository.create(user);
         repository.deleteById(user.getId());
 
         assertThrows(IllegalArgumentException.class, () -> repository.findById(user.getId()));
+    }
+
+    @Test
+    void testDeleteAll() {
+        // Создаем пользователя с помощью конструктора одной строкой
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|testUser|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
+
+        repository.create(user);
+        repository.deleteAll();
+
+        List<User> users = repository.findAll();
+        assertTrue(users.isEmpty());
+    }
+
+    @Test
+    void testLoadUsersFromFile() {
+        // Создаем пользователя с помощью конструктора одной строкой
+        User user = new User("f5a8a3cb-4ac9-4b3b-8a65-c424e129b9d2|2023-12-25T19:10:11.556|testUser|testPass123|testPass123|Тестов|Тест|Тестович|30|false");
+
+        // Создаем пользователя и записываем его в файл
+        repository.create(user);
+
+        // Загружаем пользователей из файла
+        List<User> users = repository.findAll();
+        assertFalse(users.isEmpty());
+        assertEquals(1, users.size());
+        assertEquals("testUser", users.get(0).getLogin());
     }
 }

@@ -14,6 +14,20 @@ public class User {
     private Integer age;
     private boolean isWorker;
 
+    public User(String line) {
+        String[] parts = line.split("\\|");
+        this.id = parts[0];
+        this.registrationDate = LocalDateTime.parse(parts[1]);
+        this.login = parts[2];
+        this.password = parts[3];
+        this.confirmPassword = parts[4];
+        this.lastName = parts[5];
+        this.firstName = parts[6];
+        this.middleName = parts[7];
+        this.age = parts[8].isEmpty() ? null : Integer.parseInt(parts[8]);
+        this.isWorker = Boolean.parseBoolean(parts[9]);
+    }
+
     // Геттеры и сеттеры
     public String getId() {
         return id;

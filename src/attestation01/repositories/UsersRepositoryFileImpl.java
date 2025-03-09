@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 public class UsersRepositoryFileImpl implements UsersRepository {
     private static final String FILE_NAME = "users.txt";
     private List<User> users = new ArrayList<>();
@@ -45,7 +44,17 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public List<User> findAll() {
-        return new ArrayList<>(users);
+        if (users.isEmpty()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    users.add(new User(line)); // Используем конструктор User
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Ошибка при чтении файла", e);
+            }
+        }
+        return new ArrayList<>(users); // Возвращаем копию списка
     }
 
     @Override
@@ -69,66 +78,14 @@ public class UsersRepositoryFileImpl implements UsersRepository {
         writeAllUsers(users);
     }
 
-    public List<User> readAllUsers() {
-        return readAllUsersFromFile();
-    }
-
-    public void addUserToCollection(User user) {
-        users.add(user);
-    }
-
-    private List<User> readAllUsersFromFile() {
-        List<User> users = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                users.add(stringToUser(line));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Ошибка при чтении файла", e);
-        }
-        return users;
-    }
-
     private void writeAllUsers(List<User> users) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (User user : users) {
-                writer.write(userToString(user));
+                writer.write(user.toString()); // Используем метод toString() из User
                 writer.newLine();
             }
         } catch (IOException e) {
             throw new RuntimeException("Ошибка при записи в файл", e);
         }
-    }
-
-    private String userToString(User user) {
-        return String.join("|",
-                user.getId(),
-                user.getRegistrationDate().toString(),
-                user.getLogin(),
-                user.getPassword(),
-                user.getConfirmPassword(),
-                user.getLastName(),
-                user.getFirstName(),
-                user.getMiddleName(),
-                user.getAge() != null ? user.getAge().toString() : "",
-                Boolean.toString(user.isWorker())
-        );
-    }
-
-    private User stringToUser(String line) {
-        String[] parts = line.split("\\|");
-        User user = new User();
-        user.setId(parts[0]);
-        user.setRegistrationDate(LocalDateTime.parse(parts[1]));
-        user.setLogin(parts[2]);
-        user.setPassword(parts[3]);
-        user.setConfirmPassword(parts[4]);
-        user.setLastName(parts[5]);
-        user.setFirstName(parts[6]);
-        user.setMiddleName(parts[7]);
-        user.setAge(parts[8].isEmpty() ? null : Integer.parseInt(parts[8]));
-        user.setWorker(Boolean.parseBoolean(parts[9]));
-        return user;
     }
 }
